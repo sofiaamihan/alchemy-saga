@@ -1,48 +1,16 @@
 # ----------IMPORTS----------
 from tkinter import *
+screen1 = Tk()
+
 import random
 from PIL import Image, ImageTk
-
-# ----------CONSTANTS----------
-BG_COLOUR = "#021e42"
-FG_COLOUR = "#a2bde0"
-BIG_FONT = ("Times", 30, "bold")
-NORM_FONT = ("Times", 15, "bold")
-SMALL_FONT = ("Times", 10, "bold")
-POSITION = "1200x658+150+150"
-LIST_OF_LANGUAGES = ["English", "Chinese", "Malay", "Tamil", "Spanish", "French", "Tagalog", "German"]
-HEAL = "50P - Increases your current HP by 50%."
-AURA = "50P - Permanently lowers the enemy's DP by 50%."
-TRICK = "90P - Acts as a force-field for all players. Lasts one round. The enemy's AP is inflicted onto themselves, \
-their turn is skipped."
-BOULDER_BRUTE = "75P - Combines the AP of both characters, inflicting 75% of that value onto the enemy."
-CARBON_PROTECT = "80P - All players will be immune to any damage. Lasts one round. Enemy's turn is skipped."
-PRESSURISE = "50P - Permanently increases your DP by 15%."
-PRISMATIC_BEAM = "80P - Net Damage inflicted is 2x the Enemy's DP."
-GLIMMER = "50P - Permanently increases your AP by 50%."
-ILLUMINATE = "25P - Absorbs 10% of the Enemy's DP."
-DICT_OF_CLASSES = {
-    "Lux": { # Crab and Rat
-        "Prismatic Beam": PRISMATIC_BEAM,
-        "Glimmer": GLIMMER,
-        "Illuminate": ILLUMINATE,
-    },
-    "Psychic": { # Slime and Skull
-        "Heal": HEAL,
-        "Aura": AURA,
-        "Trick": TRICK,
-    },
-    "Mineral": { # Golum and Pebble
-        "Boulder Brute": BOULDER_BRUTE,
-        "Carbon Protect": CARBON_PROTECT,
-        "Pressurise": PRESSURISE
-    },
-}
-
-LIST_OF_SKILL_POINTS = [50, 50, 90, 75, 80, 50, 80, 50, 25]
+from scripts.constants import *
+from scripts.characters import *
+from scripts.photos import *
+from scripts.functions import * 
+from scripts.variables import *
 
 # ----------SCREEN 1----------
-screen1 = Tk()
 screen1.geometry(POSITION)
 screen1.title("Sofia Project 1B: Turn-Based RPG")
 screen1.config(bg=BG_COLOUR)
@@ -51,56 +19,11 @@ screen1.columnconfigure(0, weight=1)
 screen1_frame = Frame(screen1, width=1200, height=658, bg=BG_COLOUR)
 screen1_frame.grid(row=0, column=0)
 
-# ----------VARIABLES----------
-clicked_buttons = []
-user_player = None
-comp_enemy = None
-user_player2 = None
-comp_enemy2 = None
-next_move = False
-number_of_enemies = IntVar()
-comp_enemy_choice = ""
-net_attack = 0
-turns = 0
-rounds = 1
-battling = True
-choosing_action = True
-choosing_skill = True
-enemy_defence = 0
-enemy2_defence = 0
-player_defence = 0
-player2_defence = 0
-stats = StringVar()
-stats2 = StringVar()
-stats3 = StringVar()
-stats4 = StringVar()
-round_num = StringVar()
-screen5_frame = None
-screen6_frame = None
-content = None
-
-def restart_variables():
-    """Restarts all the necessary variables."""
-    global turns, rounds, enemy_defence, player_defence, next_move, LIST_OF_CHARACTERS
-    next_move = False
-    turns = 0
-    rounds = 1
-    enemy_defence = 0
-    player_defence = 0
-    for character in LIST_OF_CHARACTERS:
-        character.restart()
-
 # ----------FUNCTIONS (CREATING LAYERED SCREENS VIA FRAMES)----------
 def back(widget):
     """Acts as a Back Button by Destroying Current Frame"""
     widget.destroy()
 
-def insert_text(text, widget):
-    """Displays Text onto Messege Log"""
-    widget.config(state=NORMAL)
-    widget.insert(END, text)
-    widget.config(state=DISABLED)
-    widget.see(END)
 
 def battle_screen():
     """Displays Combat Screen"""
@@ -189,14 +112,14 @@ def battle_screen():
 
     def attack(attacker, defender):
         """Attack the Player/Enemy depending on Attacker/Defender Input."""
-        global net_attack
+        global net_attack, content
         net_attack = attacker.ap - defender.dp
         insert_text(f"\n{attacker.name} is attacking...", content)
         insert_text(f"{attacker.name} has inflicted damage!", content)
 
     def defend(defender):
         """Defend the Player/Enemy permanently depending on Defender Input."""
-        global player_defence, player2_defence, enemy_defence, enemy2_defence
+        global player_defence, player2_defence, enemy_defence, enemy2_defence, content
         if defender == user_player:
             player_defence += 1
         if defender == user_player2:
@@ -401,7 +324,7 @@ def battle_screen():
 
     def generating_an_enemy(numb):
         """Generates Enemies"""
-        global LIST_OF_CHARACTERS, comp_enemy_choice
+        global LIST_OF_CHARACTERS, comp_enemy_choice, content
         insert_text("\n\nGenerating an enemy...", content)
         generating = True
         while generating:
@@ -416,7 +339,7 @@ def battle_screen():
 
     def start_game_logic():
         """Spawns Enemies. StartsGame."""
-        global user_player, user_player2, comp_enemy, comp_enemy2, number_of_enemies, next_move
+        global user_player, user_player2, comp_enemy, comp_enemy2, number_of_enemies, next_move, content
         if number_of_enemies.get() == 1:
             comp_enemy = generating_an_enemy(1)
             display_enemy_stats()
@@ -448,7 +371,7 @@ def battle_screen():
 
     def continue_game():
         """Returns True if the game will continue."""
-        global user_player, user_player2, comp_enemy, comp_enemy2, number_of_enemies, turns, rounds
+        global user_player, user_player2, comp_enemy, comp_enemy2, number_of_enemies, turns, rounds, content
         check_health()
         if number_of_enemies.get() == 1:
             if user_player.hp <= 0:
@@ -496,7 +419,7 @@ during this round.", content)
 
     def battle(faster_player):
         """Player and Enemy are battling each other. The Faster Player goes on Even turns."""
-        global user_player, user_player2, comp_enemy, comp_enemy2, turns, rounds, battling, next_move
+        global user_player, user_player2, comp_enemy, comp_enemy2, turns, rounds, battling, next_move, content
         if faster_player == user_player:
             user = 0
         else:
@@ -974,26 +897,10 @@ right_home_frame.grid(row=1, column=1)
 right_home_frame.grid_propagate(False)
 
 # --PHOTOS--
-photo1 = PhotoImage(file="./assets/home_screen_background.png")
-mod_photo1 = photo1.subsample(2, 2)
-mod_photo2 = ImageTk.PhotoImage(Image.open("./assets/isla.png").resize((150, 150)))
-mod2_photo2 = ImageTk.PhotoImage(Image.open("./assets/isla.png").resize((200, 200)))
-mod_photo3 = ImageTk.PhotoImage(Image.open("./assets/rosa.png").resize((150, 150)))
-mod2_photo3 = ImageTk.PhotoImage(Image.open("./assets/rosa.png").resize((150, 150)))
-mod_photo4 = ImageTk.PhotoImage(Image.open("./assets/jess.png").resize((150, 150)))
-mod2_photo4 = ImageTk.PhotoImage(Image.open("./assets/jess.png").resize((150, 150)))
-mod_photo5 = ImageTk.PhotoImage(Image.open("./assets/violet.png").resize((150, 150)))
-mod2_photo5 = ImageTk.PhotoImage(Image.open("./assets/violet.png").resize((150, 150)))
-mod_photo6 = ImageTk.PhotoImage(Image.open("./assets/merida.png").resize((150, 150)))
-mod2_photo6 = ImageTk.PhotoImage(Image.open("./assets/merida.png").resize((150, 150)))
-mod_photo7 = ImageTk.PhotoImage(Image.open("./assets/diego.png").resize((150, 150)))
-mod2_photo7 = ImageTk.PhotoImage(Image.open("./assets/diego.png").resize((150, 150)))
-photo8 = PhotoImage(file="./assets/versus.png")
-mod_photo8 = photo8.subsample(10, 10)
 Label(right_home_frame, image=mod_photo1).place(x=1, y=1)
 
 # --BUTTONS--
-button1 = Button(left_home_frame, text="View Players", fg=FG_COLOUR, bg=BG_COLOUR, width=30, height=3, font=NORM_FONT, highlightbackground=BG_COLOUR)
+button1 = Button(left_home_frame, text="View Players", fg=FG_COLOUR, bg=BG_COLOUR, width=30, height=3, font=NORM_FONT)
 button1.config(command=view_players)
 button1.pack(expand=True)
 button2 = Button(left_home_frame, text="View Enemies", fg=FG_COLOUR, bg=BG_COLOUR, width=30, height=3, font=NORM_FONT)
@@ -1009,162 +916,5 @@ button5 = Button(right_home_frame, text="Start Game", fg=FG_COLOUR, bg=BG_COLOUR
 button5.config(command=start_game)
 button5.place(relx=0.5, rely=0.7)
 
-# --------------------CLASSES--------------------
-class Characters:
-    def __init__(self, job_class, name, hp, ap, dp, mp, sp, image, skills):
-        self.job_class = job_class
-        self.name = name
-        self.hp = hp
-        self.ap = ap
-        self.dp = dp
-        self.mp = mp
-        self.SP = sp
-        self.HP = hp
-        self.AP = ap
-        self.DP = dp
-        self.MP = mp
-        self.image = image
-        self.skills = skills
-
-    def display_stats(self):
-        return f'''
------{self.name}-----
-JOB CLASS: {self.job_class}
-HP: {self.hp}
-AP: {self.ap}
-DP: {self.dp}
-MP: {self.mp}
-SP: {self.SP}
-'''
-
-    def restart(self):
-        self.hp = self.HP
-        self.ap = self.AP
-        self.dp = self.DP
-        self.mp = self.MP
-
-    def heal(self):
-        self.hp /= 0.5
-        self.hp = int(self.hp)
-        self.mp -= LIST_OF_SKILL_POINTS[0]
-        insert_text("\nYou used Heal! Health is restored.", content)
-
-    def aura(self, enemy):
-        enemy.dp /= 2
-        enemy.dp = int(enemy.dp)
-        self.mp -= LIST_OF_SKILL_POINTS[1]
-        insert_text("\nYou used Aura! Enemy's defence is lowered by 50%.", content)
-
-    def trick(self, enemy):
-        global net_attack, turns
-        net_attack = enemy.ap - enemy.dp
-        turns += 1
-        self.mp -= LIST_OF_SKILL_POINTS[2]
-        insert_text("\nYou used Trick! Force-field is up. Enemy skips a turn.", content)
-
-    def boulder_brute(self, enemy):
-        global net_attack
-        net_attack = (self.ap + enemy.ap) * 0.75 - enemy.dp
-        self.mp -= LIST_OF_SKILL_POINTS[3]
-        insert_text("\nYou used Boulder Brute! Massive damage inflicted!", content)
-
-    def carbon_protect(self):
-        global turns
-        self.mp -= LIST_OF_SKILL_POINTS[4]
-        turns += 1
-        insert_text("\nYou used Carbon Protect! Temporary immunity is activated. The enemy skips a turn.", content)
-
-    def pressurise(self):
-        self.dp *= 1.15
-        self.dp = int(self.dp)
-        self.mp -= LIST_OF_SKILL_POINTS[5]
-        insert_text("\nYou used Pressurize! Defence is up.", content)
-
-    def prismatic_beam(self, enemy):
-        global net_attack
-        net_attack = enemy.dp * 2
-        self.mp -= LIST_OF_SKILL_POINTS[6]
-        insert_text("\nYou used Astral Ray! Massive damage inflicted!", content)
-
-    def glimmer(self):
-        self.ap *= 1.5
-        self.ap = int(self.ap)
-        self.mp -= LIST_OF_SKILL_POINTS[7]
-        insert_text("\nYou used Glimmer! Attack stats increased.", content)
-
-    def illuminate(self, enemy):
-        enemy.dp *= 0.9
-        enemy.dp = int(enemy.dp)
-        self.mp -= LIST_OF_SKILL_POINTS[8]
-        insert_text("\nYou used Illuminate! Enemy's defence is lowered by 10%.", content)
-
-# --------------------INSTANCES--------------------
-isla = Characters(
-    job_class="Psychic",
-    name="Isla",
-    hp=160,
-    ap=108,
-    dp=30,
-    mp=150,
-    sp=155,
-    image=mod2_photo2,
-    skills="Heal, Aura, Trick"
-)
-rosa = Characters(
-    job_class="Mineral",
-    name="Rosa",
-    hp=180,
-    ap=79,
-    dp=49,
-    mp=130,
-    sp=82,
-    image=mod2_photo3,
-    skills="Boulder Brute, Carbon Protect, Pressurize"
-)
-jess = Characters(
-    job_class="Lux",
-    name="Jess",
-    hp=140,
-    ap=85,
-    dp=28,
-    mp=105,
-    sp=178,
-    image=mod2_photo4,
-    skills="Astral Ray, Glimmer, Illuminate"
-)
-violet = Characters(
-    job_class="Psychic",
-    name="Violet",
-    hp=170,
-    ap=107,
-    dp=36,
-    mp=0,
-    sp=167,
-    image=mod2_photo5,
-    skills=None
-)
-merida = Characters(
-    job_class="Mineral",
-    name="Merida",
-    hp=190,
-    ap=77,
-    dp=45,
-    mp=0,
-    sp=79,
-    image=mod2_photo6,
-    skills=None
-)
-diego = Characters(
-    job_class="Lux",
-    name="Diego",
-    hp=150,
-    ap=89,
-    dp=32,
-    mp=0,
-    sp=181,
-    image=mod2_photo7,
-    skills=None
-)
-LIST_OF_CHARACTERS = [isla, rosa, jess, violet, merida, diego]
-
+# --------------------START--------------------
 screen1.mainloop()

@@ -46,7 +46,7 @@ SP: {self.SP}
         enemy.dp /= 2
         enemy.dp = int(enemy.dp)
         self.mp -= LIST_OF_SKILL_POINTS[1]
-        insert_text("\nYou used Aura! Enemy's defence is lowered by 50%.", content)
+        insert_text("\nYou used Aura! Enemy's defense is lowered by 50%.", content)
 
     def trick(self, enemy):
         global net_attack, turns
@@ -71,7 +71,7 @@ SP: {self.SP}
         self.dp *= 1.15
         self.dp = int(self.dp)
         self.mp -= LIST_OF_SKILL_POINTS[5]
-        insert_text("\nYou used Pressurize! Defence is up.", content)
+        insert_text("\nYou used Pressurize! Defense is up.", content)
 
     def prismatic_beam(self, enemy):
         global net_attack
@@ -89,7 +89,7 @@ SP: {self.SP}
         enemy.dp *= 0.9
         enemy.dp = int(enemy.dp)
         self.mp -= LIST_OF_SKILL_POINTS[8]
-        insert_text("\nYou used Illuminate! Enemy's defence is lowered by 10%.", content)
+        insert_text("\nYou used Illuminate! Enemy's defense is lowered by 10%.", content)
 
 isla = Characters(
     job_class="Psychic",

@@ -4,7 +4,7 @@ from PIL import Image, ImageTk
 photo1 = PhotoImage(file="./assets/home_screen_background.png")
 mod_photo1 = photo1.subsample(2, 2)
 mod_photo2 = ImageTk.PhotoImage(Image.open("./assets/isla.png").resize((150, 150)))
-mod2_photo2 = ImageTk.PhotoImage(Image.open("./assets/isla.png").resize((200, 200)))
+mod2_photo2 = ImageTk.PhotoImage(Image.open("./assets/isla.png").resize((150, 150)))
 mod_photo3 = ImageTk.PhotoImage(Image.open("./assets/rosa.png").resize((150, 150)))
 mod2_photo3 = ImageTk.PhotoImage(Image.open("./assets/rosa.png").resize((150, 150)))
 mod_photo4 = ImageTk.PhotoImage(Image.open("./assets/jess.png").resize((150, 150)))

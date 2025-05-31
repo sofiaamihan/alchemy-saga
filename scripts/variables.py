@@ -15,10 +15,10 @@ rounds = 1
 battling = True
 choosing_action = True
 choosing_skill = True
-enemy_defence = 0
-enemy2_defence = 0
-player_defence = 0
-player2_defence = 0
+enemy_defense = 0
+enemy2_defense = 0
+player_defense = 0
+player2_defense = 0
 stats = StringVar()
 stats2 = StringVar()
 stats3 = StringVar()
@@ -30,11 +30,11 @@ content = None
 
 def restart_variables():
     """Restarts all the necessary variables."""
-    global turns, rounds, enemy_defence, player_defence, next_move, LIST_OF_CHARACTERS
+    global turns, rounds, enemy_defense, player_defense, next_move, LIST_OF_CHARACTERS
     next_move = False
     turns = 0
     rounds = 1
-    enemy_defence = 0
-    player_defence = 0
+    enemy_defense = 0
+    player_defense = 0
     for character in LIST_OF_CHARACTERS:
         character.restart()

@@ -119,19 +119,19 @@ def battle_screen():
 
     def defend(defender):
         """Defend the Player/Enemy permanently depending on Defender Input."""
-        global player_defence, player2_defence, enemy_defence, enemy2_defence, content
+        global player_defense, player2_defense, enemy_defense, enemy2_defense, content
         if defender == user_player:
-            player_defence += 1
+            player_defense += 1
         if defender == user_player2:
-            player2_defence += 1
+            player2_defense += 1
         if defender == comp_enemy:
-            enemy_defence += 1
+            enemy_defense += 1
         if defender == comp_enemy2:
-            enemy2_defence += 1
+            enemy2_defense += 1
         defender.dp *= 1.10
         defender.dp = int(defender.dp)
         insert_text(f"\n{defender.name} is defending...", content)
-        insert_text(f"{defender.name}'s defence is up!", content)
+        insert_text(f"{defender.name}'s defense is up!", content)
 
     def display_psychic_buttons():
         """Displays Job Class:Psychic Buttons"""
@@ -153,13 +153,13 @@ def battle_screen():
 
     def enable_buttons(user):
         """Enables Buttons"""
-        global player_defence
+        global player_defense
         attack_button['state'] = NORMAL
         if user == user_player:
-            if player_defence < 4:
+            if player_defense < 4:
                 defend_button['state'] = NORMAL
         if user == user_player2:
-            if player2_defence < 4:
+            if player2_defense < 4:
                 defend_button['state'] = NORMAL
         if user == isla:
             display_psychic_buttons()
@@ -236,7 +236,7 @@ def battle_screen():
 
     def enemy_move(enemy, player):
         """The Enemy will decide whether to Attack/Defend."""
-        global enemy_defence, enemy2_defence
+        global enemy_defense, enemy2_defense
         alive = check_vital_signs(enemy, player)
         if alive:
             pass
@@ -251,15 +251,15 @@ def battle_screen():
                 computer_is_deciding = False
             else:
                 if enemy == comp_enemy:
-                    if enemy_defence < 4:
-                        enemy_defence += 1
+                    if enemy_defense < 4:
+                        enemy_defense += 1
                         defend(enemy)
                         computer_is_deciding = False
                     else:
                         continue
                 elif enemy == comp_enemy2:
-                    if enemy2_defence < 4:
-                        enemy2_defence += 1
+                    if enemy2_defense < 4:
+                        enemy2_defense += 1
                         defend(enemy)
                         computer_is_deciding = False
                     else:
@@ -268,7 +268,7 @@ def battle_screen():
 
     def player_move(enemy, player):
         """The Player will decide whether to Attack/Defend/Skill."""
-        global choosing_action, battling, player_defence, next_move
+        global choosing_action, battling, player_defense, next_move
         alive = check_vital_signs(enemy, player)
         if alive:
             pass
@@ -588,7 +588,7 @@ during this round.", content)
     for num in range(0, 2):
         health_section2.rowconfigure(num, weight=1)
 
-    # -- MESSEGE LOG SECTION--
+    # -- MESSAGE LOG SECTION--
     content_frame = Frame(main_frame, height=600, width=400, bg=BG_COLOUR)
     content_frame.pack_propagate(False)
     content_frame.grid(column=1, row=0, rowspan=2)
@@ -644,16 +644,16 @@ def start_game():
                         user_player = rosa
                     else:
                         user_player = jess
-        char1 = Button(main_frame, image=mod_photo2, bg=BG_COLOUR, fg=FG_COLOUR, command=lambda: clicked(char1))
-        char1.config(text=f"{isla.display_stats()}\rSkills: Heal, Aura, Trick")
+        char1 = Button(main_frame, image=mod_photo2, bg=BG_COLOUR, fg=FG_COLOUR, command=lambda: clicked(char1), width=240)
+        char1.config(text=f"{isla.display_stats()}\r--Skills--\rHeal\rAura\rTrick")
         char1.config(font=SMALL_FONT, compound=TOP, justify=LEFT)
         char1.grid(row=3, column=0, sticky="w")
-        char2 = Button(main_frame, image=mod_photo3, bg=BG_COLOUR, fg=FG_COLOUR, command=lambda: clicked(char2))
-        char2.config(text=f"{rosa.display_stats()}\rSkills: Boulder Brute, Carbon Protect, Pressurise")
+        char2 = Button(main_frame, image=mod_photo3, bg=BG_COLOUR, fg=FG_COLOUR, command=lambda: clicked(char2), width=240)
+        char2.config(text=f"{rosa.display_stats()}\r--Skills--\rBoulder Brute\rCarbon Protect\rPressurise")
         char2.config(font=SMALL_FONT, compound=TOP, justify=LEFT)
         char2.grid(row=3, column=1, sticky="w")
-        char3 = Button(main_frame, image=mod_photo4, bg=BG_COLOUR, fg=FG_COLOUR, command=lambda: clicked(char3))
-        char3.config(text=f"{jess.display_stats()}\rSkills: Prismatic Beam, Glimmer, Illuminate")
+        char3 = Button(main_frame, image=mod_photo4, bg=BG_COLOUR, fg=FG_COLOUR, command=lambda: clicked(char3), width=240)
+        char3.config(text=f"{jess.display_stats()}\r--Skills--\rPrismatic Beam\rGlimmer\rIlluminate")
         char3.config(font=SMALL_FONT, compound=TOP, justify=LEFT)
         char3.grid(row=3, column=2, sticky="w")
         button_list = [char1, char2, char3]
@@ -684,16 +684,16 @@ def start_game():
                             user_player2 = rosa
                         else:
                             user_player2 = jess
-        char1 = Button(main_frame, image=mod_photo2, bg=BG_COLOUR, fg=FG_COLOUR, command=lambda: clicked(char1))
-        char1.config(text=f"{isla.display_stats()}\rSkills: Heal, Aura, Trick")
+        char1 = Button(main_frame, image=mod_photo2, bg=BG_COLOUR, fg=FG_COLOUR, command=lambda: clicked(char1), width=240)
+        char1.config(text=f"{isla.display_stats()}\r--Skills--\rHeal\rAura\rTrick")
         char1.config(font=SMALL_FONT, compound=TOP, justify=LEFT)
         char1.grid(row=3, column=0, sticky="w")
-        char2 = Button(main_frame, image=mod_photo3, bg=BG_COLOUR, fg=FG_COLOUR, command=lambda: clicked(char2))
-        char2.config(text=f"{rosa.display_stats()}\rSkills: Boulder Brute, Carbon Protect, Pressurise")
+        char2 = Button(main_frame, image=mod_photo3, bg=BG_COLOUR, fg=FG_COLOUR, command=lambda: clicked(char2), width=240)
+        char2.config(text=f"{rosa.display_stats()}\r--Skills--\rBoulder Brute\rCarbon Protect\rPressurise")
         char2.config(font=SMALL_FONT, compound=TOP, justify=LEFT)
         char2.grid(row=3, column=1, sticky="w")
-        char3 = Button(main_frame, image=mod_photo4, bg=BG_COLOUR, fg=FG_COLOUR, command=lambda: clicked(char3))
-        char3.config(text=f"{jess.display_stats()}\rSkills: Prismatic Beam, Glimmer, Illuminate")
+        char3 = Button(main_frame, image=mod_photo4, bg=BG_COLOUR, fg=FG_COLOUR, command=lambda: clicked(char3), width=240)
+        char3.config(text=f"{jess.display_stats()}\r--Skills--\rPrismatic Beam\rGlimmer\rIlluminate")
         char3.config(font=SMALL_FONT, compound=TOP, justify=LEFT)
         char3.grid(row=3, column=2, sticky="w")
         button_list = [char1, char2, char3]

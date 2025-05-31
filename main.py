@@ -878,6 +878,17 @@ def game_settings():
     difficulty_options.config(from_=1, to=5)
     difficulty_options.grid(row=2, column=1)
 
+def restart_variables():
+    """Restarts all the necessary variables."""
+    global turns, rounds, enemy_defense, player_defense, next_move, LIST_OF_CHARACTERS
+    next_move = False
+    turns = 0
+    rounds = 1
+    enemy_defense = 0
+    player_defense = 0
+    for character in LIST_OF_CHARACTERS:
+        character.restart()
+
 # ----------SCREEN 1 WIDGETS----------
 Label(
     screen1_frame,

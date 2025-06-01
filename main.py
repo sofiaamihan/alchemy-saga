@@ -3,7 +3,6 @@ from tkinter import *
 screen1 = Tk()
 
 import random
-from PIL import Image, ImageTk
 from scripts.constants import *
 from scripts.characters import *
 from scripts.photos import *
@@ -12,7 +11,7 @@ from scripts.variables import *
 
 # ----------SCREEN 1----------
 screen1.geometry(POSITION)
-screen1.title("Sofia Project 1B: Turn-Based RPG")
+screen1.title("CIT1C18 Computational Thinking - Final Project")
 screen1.config(bg=BG_COLOUR)
 screen1.rowconfigure(0, weight=1)
 screen1.columnconfigure(0, weight=1)

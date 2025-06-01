@@ -36,56 +36,56 @@ SP: {self.SP}
         self.dp = self.DP
         self.mp = self.MP
 
-    def heal(self):
+    def heal(self, content):
         self.hp /= 0.5
         self.hp = int(self.hp)
         self.mp -= LIST_OF_SKILL_POINTS[0]
         insert_text("\nYou used Heal! Health is restored.", content)
 
-    def aura(self, enemy):
+    def aura(self, enemy, content):
         enemy.dp /= 2
         enemy.dp = int(enemy.dp)
         self.mp -= LIST_OF_SKILL_POINTS[1]
         insert_text("\nYou used Aura! Enemy's defense is lowered by 50%.", content)
 
-    def trick(self, enemy):
+    def trick(self, enemy, content):
         global net_attack, turns
         net_attack = enemy.ap - enemy.dp
         turns += 1
         self.mp -= LIST_OF_SKILL_POINTS[2]
         insert_text("\nYou used Trick! Force-field is up. Enemy skips a turn.", content)
 
-    def boulder_brute(self, enemy):
+    def boulder_brute(self, enemy, content):
         global net_attack
         net_attack = (self.ap + enemy.ap) * 0.75 - enemy.dp
         self.mp -= LIST_OF_SKILL_POINTS[3]
         insert_text("\nYou used Boulder Brute! Massive damage inflicted!", content)
 
-    def carbon_protect(self):
+    def carbon_protect(self, content):
         global turns
         self.mp -= LIST_OF_SKILL_POINTS[4]
         turns += 1
         insert_text("\nYou used Carbon Protect! Temporary immunity is activated. The enemy skips a turn.", content)
 
-    def pressurise(self):
+    def pressurise(self, content):
         self.dp *= 1.15
         self.dp = int(self.dp)
         self.mp -= LIST_OF_SKILL_POINTS[5]
         insert_text("\nYou used Pressurize! Defense is up.", content)
 
-    def prismatic_beam(self, enemy):
+    def prismatic_beam(self, enemy, content):
         global net_attack
         net_attack = enemy.dp * 2
         self.mp -= LIST_OF_SKILL_POINTS[6]
         insert_text("\nYou used Astral Ray! Massive damage inflicted!", content)
 
-    def glimmer(self):
+    def glimmer(self, content):
         self.ap *= 1.5
         self.ap = int(self.ap)
         self.mp -= LIST_OF_SKILL_POINTS[7]
         insert_text("\nYou used Glimmer! Attack stats increased.", content)
 
-    def illuminate(self, enemy):
+    def illuminate(self, enemy, content):
         enemy.dp *= 0.9
         enemy.dp = int(enemy.dp)
         self.mp -= LIST_OF_SKILL_POINTS[8]

@@ -268,7 +268,7 @@ def battle_screen():
 
     def player_move(enemy, player):
         """The Player will decide whether to Attack/Defend/Skill."""
-        global choosing_action, battling, player_defense, next_move
+        global choosing_action, battling, player_defense, next_move, content
         alive = check_vital_signs(enemy, player)
         if alive:
             pass
@@ -286,23 +286,23 @@ def battle_screen():
                 elif button == defend_button:
                     defend(player)
                 elif button == heal_button:
-                    isla.heal()
+                    isla.heal(content)
                 elif button == aura_button:
-                    isla.aura(enemy)
+                    isla.aura(enemy, content)
                 elif button == trick_button:
-                    isla.trick(enemy)
+                    isla.trick(enemy, content)
                 elif button == boulder_brute_button:
-                    rosa.boulder_brute(enemy)
+                    rosa.boulder_brute(enemy, content)
                 elif button == carbon_protect_button:
-                    rosa.carbon_protect()
+                    rosa.carbon_protect(content)
                 elif button == pressurise_button:
-                    rosa.pressurise()
+                    rosa.pressurise(content)
                 elif button == prismatic_beam_button:
-                    jess.prismatic_beam(enemy)
+                    jess.prismatic_beam(enemy, content)
                 elif button == glimmer_button:
-                    jess.glimmer()
+                    jess.glimmer(content)
                 elif button == illuminate_button:
-                    jess.illuminate(enemy)
+                    jess.illuminate(enemy, content)
                 display_player_stats()
                 display_enemy_stats()
                 disable_buttons(player)
